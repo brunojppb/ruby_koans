@@ -33,6 +33,16 @@ def score(dice)
   return 0 if dice.empty?
   numbers = dice.each_with_object(Hash.new(0)){ |num, ct| ct[num] += 1 }
   local_score = 0
+  local_score += 1000 if numbers[1] >= 3
+  numbers.each do |key, value|
+    local_score += 100 * key if value >= 3 && value != 1 && value == 5
+  end
+  local_score += 100 * (numbers[1] - 3) if numbers[1] && numbers[1] > 3
+  local_score += 100 * numbers[1] if numbers[1] && numbers[1] < 3
+  local_score += 50 * (numbers[5] - 3) if numbers[5] && numbers[5] > 3
+  local_score += 50 * numbers[5] if numbers[5] && numbers[5] < 3
+  puts "SCORE #{local_score}"
+  local_score
 end
 
 class AboutScoringProject < Neo::Koan
